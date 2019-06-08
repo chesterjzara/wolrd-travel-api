@@ -21,6 +21,11 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+  port: 5432
+  host: localhost
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  username: postgres
+  
 development:
   <<: *default
   database: world-map-api_development
