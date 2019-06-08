@@ -51,7 +51,7 @@ class Country
     def self.update(id, opts)
         results = DB.exec(
             <<-SQL
-                UPDATE arts
+                UPDATE user_country
                 SET user_id=#{opts["user_id"]}, country_code='#{opts["country_code"]}', trip_date='#{opts["trip_date"]}', type='#{opts["type"]}'
                 WHERE trip_id = #{id}
                 RETURNING trip_id, user_id, country_code, trip_date, type
