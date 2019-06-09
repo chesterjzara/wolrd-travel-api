@@ -71,7 +71,7 @@ class Country
                 "country_code" => trip["country_code"],
                 "country_title" => trip["country_title"],
                 "trip_date" => trip["trip_date"],
-                "type" => trip["type"],
+                "type" => trip["type"]
             }
             transformed_data << new_trip
         end
