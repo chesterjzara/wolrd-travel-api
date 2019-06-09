@@ -34,9 +34,9 @@ class Country
     def self.create(opts)
         results = DB.exec(
             <<-SQL
-                INSERT INTO user_country (user_id, country_code, trip_date, type)
-                VALUES ( #{opts["user_id"]}, '#{opts["country_code"]}', '#{opts["trip_date"]}', '#{opts["type"]}'  )
-                RETURNING trip_id, user_id, country_code, trip_date, type
+                INSERT INTO user_country (user_id, country_code, country_title, trip_date, type)
+                VALUES ( #{opts["user_id"]}, '#{opts["country_code"]}', '#{opts["country_title"]}', '#{opts["trip_date"]}', '#{opts["type"]}'  )
+                RETURNING trip_id, user_id, country_code, country_title, trip_date, type
             SQL
         )
         return self.data_transform_country(results)
@@ -52,7 +52,7 @@ class Country
         results = DB.exec(
             <<-SQL
                 UPDATE user_country
-                SET user_id=#{opts["user_id"]}, country_code='#{opts["country_code"]}', trip_date='#{opts["trip_date"]}', type='#{opts["type"]}'
+                SET user_id=#{opts["user_id"]}, country_code='#{opts["country_code"]}', country_title='#{opts["country_title"]}', trip_date='#{opts["trip_date"]}', type='#{opts["type"]}'
                 WHERE trip_id = #{id}
                 RETURNING trip_id, user_id, country_code, trip_date, type
             SQL
@@ -69,6 +69,7 @@ class Country
                 "trip_id" => trip["trip_id"].to_i,
                 "user_id" => trip["user_id"].to_i,
                 "country_code" => trip["country_code"],
+                "country_title" => trip["country_title"],
                 "trip_date" => trip["trip_date"],
                 "type" => trip["type"],
             }
