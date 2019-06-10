@@ -6,7 +6,7 @@ class AuthController < ApplicationController
           user_id: find_current_user["user_id"],
           username: find_current_user["username"]
         }
-      end
+    end
 
     def create
         user = User.find_by_username(params["auth"]["username"])

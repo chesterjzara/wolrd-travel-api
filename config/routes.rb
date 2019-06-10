@@ -20,6 +20,6 @@ Rails.application.routes.draw do
 
   # Auth Routes
   post '/auth', to: 'auth#create'
-  get "/current_user", to: "auth#show"
+  get "/current_user", to: 'auth#show'
 
 end
