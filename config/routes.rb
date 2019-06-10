@@ -18,4 +18,8 @@ Rails.application.routes.draw do
   delete '/countries/:id/', to: 'countries#delete'
   put '/countries/:id/', to: 'countries#update'
 
+  # Auth Routes
+  post '/auth', to: 'auth#create'
+  get "/current_user", to: "auth#show"
+
 end

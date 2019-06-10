@@ -19,23 +19,36 @@ class User
     end
 
     def self.find(id)
-        results = DB.exec("SELECT * FROM users WHERE user_id=#{id}")
+        p "User.find id: #{id}"
+        results = DB.exec("SELECT * FROM users WHERE user_id=#{id};")
+        result = results.first
+        return self.data_transform_users(results)
+    end
+
+    def self.find_by_username(username)
+        results = DB.exec("SELECT * FROM users WHERE username='#{username}';")
         result = results.first
         return self.data_transform_users(results)
     end
 
     def self.create(opts)
+        
+        opts["password"] = self.hash_password(opts["password"])
+        
         results = DB.exec(
             <<-SQL
-                INSERT INTO users (username)
-                VALUES ( '#{opts["username"]}')
-                RETURNING user_id, username;
+                INSERT INTO users (username, password)
+                VALUES ( '#{opts["username"]}', '#{opts["password"]}')
+                RETURNING user_id, username, password;
             SQL
         )
         result = results.first
         return self.data_transform_users(results)
     end
 
+    def self.hash_password(password)
+        BCrypt::Password.create(password).to_s
+    end
 
     # Not yet needed
 
@@ -46,11 +59,20 @@ class User
     end
 
     def self.data_transform_users(results)
-        result = results.first
-        return {
-                "user_id" => result["user_id"].to_i,
-                "username" => result["username"]
-        }
+        if(results.any?) 
+            result = results.first
+            return {
+                    "user_id" => result["user_id"].to_i,
+                    "username" => result["username"],
+                    "password" => result["password"]
+            }
+        else
+            p 'empty results!'
+            return {
+                "error" => "not found"
+            }
+        end
+
     end
 
 end
