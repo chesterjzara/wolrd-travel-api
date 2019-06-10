@@ -16,10 +16,10 @@ class AuthController < ApplicationController
             p 'match password!'
             created_jwt = issue_token({id: user["user_id"]})
             p created_jwt
-            cookies.signed[:jwt] = {
-                value: created_jwt,
-                httponly: true
-            }
+            # cookies.signed[:jwt] = {
+            #     value: created_jwt,
+            #     httponly: true
+            # }
             render json: {username: user["username"], user_id: user["user_id"], jwt: created_jwt}
         else
             p "failed password match"
