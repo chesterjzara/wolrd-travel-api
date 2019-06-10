@@ -54,7 +54,7 @@ class Country
                 UPDATE user_country
                 SET user_id=#{opts["user_id"]}, country_code='#{opts["country_code"]}', country_title='#{opts["country_title"]}', trip_date='#{opts["trip_date"]}', type='#{opts["type"]}'
                 WHERE trip_id = #{id}
-                RETURNING trip_id, user_id, country_code, trip_date, type
+                RETURNING trip_id, user_id, country_code, country_title, trip_date, type
             SQL
         )
         return self.data_transform_country(results)
@@ -71,7 +71,7 @@ class Country
                 "country_code" => trip["country_code"],
                 "country_title" => trip["country_title"],
                 "trip_date" => trip["trip_date"],
-                "type" => trip["type"],
+                "type" => trip["type"]
             }
             transformed_data << new_trip
         end
